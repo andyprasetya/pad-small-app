@@ -9,7 +9,7 @@ if(strcasecmp($_SERVER['REQUEST_METHOD'], 'POST') != 0){
 $contentType = isset($_SERVER["CONTENT_TYPE"]) ? trim($_SERVER["CONTENT_TYPE"]) : '';
 if(strcasecmp($contentType, 'application/json') != 0){
 	// throw new Exception('Content type must be: application/json');
-	$response = array("response"=>"501");
+	$response = array("status"=>501,"message"=>"Content type must be: application/json");
 	header('Content-Type: application/json');
 	echo json_encode($response);
 	exit;
@@ -18,7 +18,7 @@ if(strcasecmp($contentType, 'application/json') != 0){
 	$data = json_decode($rawData, true);
 	if(!is_array($data)){
 		// throw new Exception('Received content contained invalid JSON!');
-		$response = array("response"=>"501");
+		$response = array("status"=>501,"message"=>"Received content contained invalid JSON!");
 		header('Content-Type: application/json');
 		echo json_encode($response);
 		exit;
@@ -31,7 +31,7 @@ if(strcasecmp($contentType, 'application/json') != 0){
 			$dbcon = new PDO("sqlite:./".$appconfig['_auth_db_file_']."");
 			$dbcon->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 			/* ============================================================ */
-			$stmt_check_count = $dbcon->prepare("SELECT COUNT(*) AS countrows FROM users WHERE username = :username AND password LIKE :password AND status = 1");
+			$stmt_check_count = $dbcon->prepare("SELECT COUNT(*) AS countrows FROM users WHERE username = :username AND password = :password AND status = 1");
 			$stmt_check_count->bindValue(":username", $username, PDO::PARAM_STR);
 			$stmt_check_count->bindValue(":password", $password, PDO::PARAM_STR);
 			if ($stmt_check_count->execute()) {
@@ -39,7 +39,7 @@ if(strcasecmp($contentType, 'application/json') != 0){
 					$rowscount = $rowset_check_count['countrows'];
 				}
 				if (intval($rowscount)==1) {
-					$stmt_select_user = $dbcon->prepare("SELECT * FROM users WHERE username = :username AND password LIKE :password AND status = 1");
+					$stmt_select_user = $dbcon->prepare("SELECT * FROM users WHERE username = :username AND password = :password AND status = 1");
 					$stmt_select_user->bindValue(":username", $username, PDO::PARAM_STR);
 					$stmt_select_user->bindValue(":password", $password, PDO::PARAM_STR);
 					if ($stmt_select_user->execute()) {
@@ -54,20 +54,20 @@ if(strcasecmp($contentType, 'application/json') != 0){
 								$stmt_authorised_register->bindValue(":uid", $userid, PDO::PARAM_INT);
 								$stmt_authorised_register->bindValue(":codex", $codex, PDO::PARAM_STR);
 								if ($stmt_authorised_register->execute()) {
-									$response = array("response"=>201,"id"=>$userid,"username"=>$usernm,"hashedpassword"=>$userpw,"realname"=>$userrn,"module"=>$module);
+									$response = array("status"=>201,"id"=>$userid,"username"=>$usernm,"hashedpassword"=>$userpw,"realname"=>$userrn,"module"=>$module);
 									header('Content-Type: application/json');
 									echo json_encode($response);
 									$dbcon = null;
 									exit;
 								} else {
-									$response = array("response"=>404,"message"=>$e->getMessage());
+									$response = array("status"=>404,"message"=>$e->getMessage());
 									header('Content-Type: application/json');
 									echo json_encode($response);
 									$dbcon = null;
 									exit;
 								}
 							} else {
-								$response = array("response"=>404,"message"=>"Empty rows found.");
+								$response = array("status"=>404,"message"=>"Empty rows found.");
 								header('Content-Type: application/json');
 								echo json_encode($response);
 								$dbcon = null;
@@ -75,21 +75,21 @@ if(strcasecmp($contentType, 'application/json') != 0){
 							}
 						}
 					} else {
-						$response = array("response"=>404,"message"=>$e->getMessage());
+						$response = array("status"=>404,"message"=>$e->getMessage());
 						header('Content-Type: application/json');
 						echo json_encode($response);
 						$dbcon = null;
 						exit;
 					}
 				} else {
-					$response = array("response"=>404,"message"=>"No username/password match.");
+					$response = array("status"=>404,"message"=>"No username/password match.");
 					header('Content-Type: application/json');
 					echo json_encode($response);
 					$dbcon = null;
 					exit;
 				}
 			} else {
-				$response = array("response"=>404,"message"=>$e->getMessage());
+				$response = array("status"=>501,"message"=>$e->getMessage());
 				header('Content-Type: application/json');
 				echo json_encode($response);
 				$dbcon = null;
@@ -97,7 +97,7 @@ if(strcasecmp($contentType, 'application/json') != 0){
 			}
 			/* ============================================================ */
 		} catch (PDOException $e) {
-			$response = array("response"=>404,"message"=>$e->getMessage());
+			$response = array("status"=>501,"message"=>$e->getMessage());
 			header('Content-Type: application/json');
 			echo json_encode($response);
 			$dbcon = null;

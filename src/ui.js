@@ -10,9 +10,9 @@ ui.initUI = function(anchordiv) {
   anchordiv = typeof anchordiv !== 'undefined' ? anchordiv : 'app';
   document.title = config.documentTitle;
   this.createTopNavigation(anchordiv);
-  this._addModuleMenu();
   this.createModalBoxes(anchordiv);
   this._activateTopNav();
+  this.createLandingPage();
 };
 
 ui.createTopNavigation = function(anchordiv) {
@@ -21,73 +21,35 @@ ui.createTopNavigation = function(anchordiv) {
   let activeModule = sessionStorage.getItem('module');
   if(activeModule){
     anchorSelector.insertAdjacentHTML('beforebegin', templates.topAppMainNavigation());
+    if(activeModule == 'administrator'){
+      anchorSelector.innerHTML = templates.adminSidebar();
+    } else {
+      anchorSelector.innerHTML = templates.viewerSidebar();
+    }
   } else {
     anchorSelector.insertAdjacentHTML('beforebegin', templates.topLandingPageNavigation());
   }
 };
 
-ui._addModuleMenu = function() {
-  let activeModule = sessionStorage.getItem('module');
-  if(activeModule){
-    switch(activeModule){
-      case 'development':
-        let leftMenu = document.getElementById('topnavleftmenu').firstElementChild;
-        let rightMenu = document.getElementById('topnavrightmenu').firstElementChild;
-        let domleft = `<li class='nav-item'>
-            <a id='data' class='nav-link' href='#'><i class='fa fa-shield'></i>&nbsp;Data</a>
-          </li>
-          <li class='nav-item'>
-            <a id='report' class='nav-link' href='#'><i class='fa fa-book'></i>&nbsp;Laporan</a>
-          </li>`;
-        let domright = `<li class='nav-item'>
-          <a id='setting' class='nav-link' href='#'><i class='fa fa-cog'></i>&nbsp;Pengaturan</a>
-        </li>`;
-        leftMenu.insertAdjacentHTML('afterend', domleft);
-        rightMenu.insertAdjacentHTML('beforebegin', domright);
-        break;
-      default:
-        
-        break;
-    }
-  } else {
-    return false;
-  }
-};
-
 ui._activateTopNav = function() {
-  $('#navbarSupportedContent > ul.navbar-nav > li.nav-item > a.nav-link').on('click', function(evt){
-    evt.stopImmediatePropagation();
-    $('#navbarSupportedContent.navbar-collapse.collapse.show').removeClass().addClass('navbar-collapse collapse');
-    let itemid = $(this).attr('id');
-    switch(itemid) {
-      case 'dashboard':
-          document.getElementById('app').innerHTML = "";
-          
-        break;
-      case 'data':
-          document.getElementById('app').innerHTML = "";
-          
-        break;
-      case 'report':
-          document.getElementById('app').innerHTML = "";
-          
-        break;
-      case 'setting':
-          document.getElementById('app').innerHTML = "";
-          
-        break;
-      case 'login':
-          helpers._doLoginBox();
-        break;
-      case 'exit':
-          helpers._signout();
-        break;
-      default:
-          console.log('undefined');
-        break;
-    }
-    return false;
-  });
+  let elements = document.querySelectorAll('.nav-link');
+  for (let i = 0; i < elements.length; i++){
+    let self = elements[i];
+    self.addEventListener('click', function(event){
+      event.preventDefault();
+      if (document.querySelector('.nav-link.active') !== null) {
+        document.querySelector('.nav-link.active').classList.remove('active');
+      }
+      if(this.id == 'login'){
+        helpers._doLoginBox();
+      } else if(this.id == 'exit'){
+        helpers._signout();
+      } else {
+        ui._createAppModule(this.id);
+      }
+      this.classList.toggle('active');
+    });
+  }
 };
 
 ui.createModalBoxes = function(anchordiv) {
@@ -97,13 +59,68 @@ ui.createModalBoxes = function(anchordiv) {
 };
 
 ui.createLandingPage = function() {
-
+  this._createDashboard();
 };
 
 ui._createDashboard = function() {
-  let module = sessionStorage.getItem('module'), 
-    userid = sessionStorage.getItem('userid');
-  document.getElementById('app').innerHTML = "";
+  let anchorSelector = document.getElementById('app');
+  let activeModule = sessionStorage.getItem('module');
+  if(activeModule){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Dashboard', 'fa fa-home');
+  } else {
+    anchorSelector.innerHTML = "";
+    console.log('Landing page - public');
+  }
+};
+
+ui._createAppModule = function(appsubmodule) {
+  appsubmodule = typeof appsubmodule !== 'undefined' ? appsubmodule : 'dashboard';
+  let activeModule = sessionStorage.getItem('module');
+  document.getElementById('app_header').innerHTML = "";
+  document.getElementById('app_body').innerHTML = "";
+  if(appsubmodule == 'dashboard'){
+    this.createLandingPage();
+  } else if(appsubmodule == 'data_restoran'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Restoran', 'fa fa-file');
+  } else if(appsubmodule == 'data_hotel'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hotel', 'fa fa-file');
+  } else if(appsubmodule == 'data_parkir'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Parkir', 'fa fa-file');
+  } else if(appsubmodule == 'data_reklame'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Reklame', 'fa fa-file');
+  } else if(appsubmodule == 'data_airtanah'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Air Tanah', 'fa fa-file');
+  } else if(appsubmodule == 'data_hiburan'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hiburan', 'fa fa-file');
+  } else if(appsubmodule == 'data_bphtb'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('BPHTB', 'fa fa-file');
+  } else if(appsubmodule == 'data_ppju'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('PPJU', 'fa fa-file');
+  } else if(appsubmodule == 'data_pbbp2'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('PBB-P2', 'fa fa-file');
+  } else if(appsubmodule == 'view_restoran'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Restoran', 'fa fa-file');
+  } else if(appsubmodule == 'view_hotel'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hotel', 'fa fa-file');
+  } else if(appsubmodule == 'view_parkir'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Parkir', 'fa fa-file');
+  } else if(appsubmodule == 'view_reklame'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Reklame', 'fa fa-file');
+  } else if(appsubmodule == 'view_airtanah'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Air Tanah', 'fa fa-file');
+  } else if(appsubmodule == 'view_hiburan'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hiburan', 'fa fa-file');
+  } else if(appsubmodule == 'view_bphtb'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('BPHTB', 'fa fa-file');
+  } else if(appsubmodule == 'view_ppju'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('PPJU', 'fa fa-file');
+  } else if(appsubmodule == 'view_pbbp2'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('PBB-P2', 'fa fa-file');
+  } else if(appsubmodule == 'grafik_pad'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Realisasi PAD', 'fa fa-line-chart');
+  } else {
+    console.log('__undefined__');
+  }
 };
 
 export default ui;

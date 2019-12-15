@@ -103,7 +103,7 @@ helpers._doLoginBox = function() {
         var form = document.querySelector('#dynamicform'),
           formData = helpers.serialize(form), 
           jsonData = helpers.QueryStringToJSON(decodeURIComponent(formData));
-        fetch(''+config.endPointBaseURL+'/dataservices/doLogin', {
+        fetch(''+config.endPointBaseURL+'/dataservices/doLogin.php', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -183,7 +183,7 @@ helpers._resetTimer = function(timeout) {
  * */
 helpers._signout = function() {
   let sessionId = sessionStorage.getItem('sessionid');
-  fetch(''+config.endPointBaseURL+'/dataservices/doLogoff', {
+  fetch(''+config.endPointBaseURL+'/dataservices/doLogoff.php', {
     method: 'POST',
     headers: {
       'Accept': 'application/json',
