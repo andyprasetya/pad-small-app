@@ -1,6 +1,7 @@
 {
   "name": "rollup-jquery-bootstrap",
   "devDependencies": {
+    "@rollup/plugin-json": "^4.0.0",
     "autoprefixer": "latest",
     "bootstrap": "latest",
     "jquery": "latest",
@@ -15,9 +16,12 @@
     "serve": "^11.0.2"
   },
   "dependencies": {
+    "date-fns": "latest",
     "numeral": "latest",
-    "datatables": "latest",
-    "date-fns": "latest"
+    "simple-datatables": "latest",
+    "vega": "^5.9.0",
+    "vega-embed": "^6.2.1",
+    "vega-lite": "^4.0.2"
   },
   "scripts": {
     "build": "rollup -c",

@@ -165,4 +165,94 @@ templates.breadcrumb = function(title, icon){
   return dom;
 }
 
+templates._formModuleRestoran = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModuleHotel = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModuleParkir = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModuleReklame = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModuleAirTanah = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModuleHiburan = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModuleBPHTB = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModulePPJU = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._formModulePBBP2 = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleRestoran = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleHotel = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleParkir = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleReklame = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleAirTanah = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleHiburan = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModuleBPHTB = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModulePPJU = function(){
+  let dom = ``;
+  return dom;
+};
+
+templates._viewModulePBBP2 = function(){
+  let dom = ``;
+  return dom;
+};
+
 export default templates;

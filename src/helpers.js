@@ -157,10 +157,15 @@ helpers._doLoginBox = function() {
  * activities for some seconds
  * */
 helpers._appsTimeOut = function () {
-  let _timeout;
-  window.onload = helpers._resetTimer(_timeout);
-  document.onmousemove = helpers._resetTimer(_timeout);
-  document.onkeypress = helpers._resetTimer(_timeout);
+  let activeSession = sessionStorage.getItem('sessionid');
+  if(activeSession){
+    let _timeout;
+    window.onload = this._resetTimer(_timeout);
+    document.onmousemove = this._resetTimer(_timeout);
+    document.onkeypress = this._resetTimer(_timeout);
+  } else {
+    console.log('No active session.');
+  }
 };
 
 /**
@@ -170,7 +175,7 @@ helpers._resetTimer = function(timeout) {
   let activeSession = sessionStorage.getItem('sessionid');
   if(activeSession){
     clearTimeout(timeout);
-    timeout = setTimeout(helpers._signout, parseInt(config.dashboardRefreshTimeout));
+    timeout = setTimeout(this._signout, parseInt(config.dashboardRefreshTimeout));
   } else {
     setTimeout(function(){
       document.location = './';

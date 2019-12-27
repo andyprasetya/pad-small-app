@@ -13194,6 +13194,7 @@
 	Popper.Utils = (typeof window !== 'undefined' ? window : global).PopperUtils;
 	Popper.placements = placements;
 	Popper.Defaults = Defaults;
+	//# sourceMappingURL=popper.js.map
 
 	var bootstrap = createCommonjsModule(function (module, exports) {
 	/*!
@@ -17713,7 +17714,7 @@
 	  Object.defineProperty(exports, '__esModule', { value: true });
 
 	})));
-
+	//# sourceMappingURL=bootstrap.js.map
 	});
 
 	unwrapExports(bootstrap);
@@ -18048,10 +18049,15 @@
 	 * activities for some seconds
 	 * */
 	helpers._appsTimeOut = function () {
-	  let _timeout;
-	  window.onload = helpers._resetTimer(_timeout);
-	  document.onmousemove = helpers._resetTimer(_timeout);
-	  document.onkeypress = helpers._resetTimer(_timeout);
+	  let activeSession = sessionStorage.getItem('sessionid');
+	  if(activeSession){
+	    let _timeout;
+	    window.onload = this._resetTimer(_timeout);
+	    document.onmousemove = this._resetTimer(_timeout);
+	    document.onkeypress = this._resetTimer(_timeout);
+	  } else {
+	    console.log('No active session.');
+	  }
 	};
 
 	/**
@@ -18061,7 +18067,7 @@
 	  let activeSession = sessionStorage.getItem('sessionid');
 	  if(activeSession){
 	    clearTimeout(timeout);
-	    timeout = setTimeout(helpers._signout, parseInt(config.dashboardRefreshTimeout));
+	    timeout = setTimeout(this._signout, parseInt(config.dashboardRefreshTimeout));
 	  } else {
 	    setTimeout(function(){
 	      document.location = './';
@@ -18181,42 +18187,61 @@
 	    this.createLandingPage();
 	  } else if(appsubmodule == 'data_restoran'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Restoran', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleRestoran();
 	  } else if(appsubmodule == 'data_hotel'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hotel', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleHotel();
 	  } else if(appsubmodule == 'data_parkir'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Parkir', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleParkir();
 	  } else if(appsubmodule == 'data_reklame'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Reklame', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleReklame();
 	  } else if(appsubmodule == 'data_airtanah'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Air Tanah', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleAirTanah();
 	  } else if(appsubmodule == 'data_hiburan'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hiburan', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleHiburan();
 	  } else if(appsubmodule == 'data_bphtb'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('BPHTB', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModuleBPHTB();
 	  } else if(appsubmodule == 'data_ppju'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('PPJU', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModulePPJU();
 	  } else if(appsubmodule == 'data_pbbp2'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('PBB-P2', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._formModulePBBP2();
 	  } else if(appsubmodule == 'view_restoran'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Restoran', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleRestoran();
 	  } else if(appsubmodule == 'view_hotel'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hotel', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleHotel();
 	  } else if(appsubmodule == 'view_parkir'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Parkir', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleParkir();
 	  } else if(appsubmodule == 'view_reklame'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Reklame', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleReklame();
 	  } else if(appsubmodule == 'view_airtanah'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Air Tanah', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleAirTanah();
 	  } else if(appsubmodule == 'view_hiburan'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Hiburan', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleHiburan();
 	  } else if(appsubmodule == 'view_bphtb'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('BPHTB', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModuleBPHTB();
 	  } else if(appsubmodule == 'view_ppju'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('PPJU', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModulePPJU();
 	  } else if(appsubmodule == 'view_pbbp2'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('PBB-P2', 'fa fa-file');
+	    document.getElementById('app_body').innerHTML = templates._viewModulePBBP2();
 	  } else if(appsubmodule == 'grafik_pad'){
 	    document.getElementById('app_header').innerHTML = templates.breadcrumb('Realisasi PAD', 'fa fa-line-chart');
+	    document.getElementById('app_body').innerHTML = templates._viewGraphicPAD();
 	  } else {
 	    console.log('__undefined__');
 	  }
