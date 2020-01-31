@@ -217,4 +217,22 @@ helpers._signout = function() {
   });
 };
 
+helpers._otf_format_date = function(mode,xdate){
+  mode = typeof mode !== 'undefined' ? mode : 'tohtml';
+  xdate = typeof xdate !== 'undefined' ? xdate : '2016-01-01';
+  if (mode === "tohtml") {
+    var arrStrDate = xdate.split('-');
+    var strDate = ""+arrStrDate[2]+"/"+arrStrDate[1]+"/"+arrStrDate[0]+"";
+    return strDate;
+  } else if (mode === "todb") {
+    var arrStrDate = xdate.split('/');
+    var strDate = ""+arrStrDate[2]+"-"+arrStrDate[1]+"-"+arrStrDate[0]+"";
+    return strDate;
+  } else {
+    var arrStrDate = xdate.split('-');
+    var strDate = ""+arrStrDate[2]+"/"+arrStrDate[1]+"/"+arrStrDate[0]+"";
+    return strDate;
+  }
+};
+
 export default helpers;

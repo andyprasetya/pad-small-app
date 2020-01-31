@@ -84,7 +84,60 @@ templates.adminSidebar = function(){
 };
 
 templates.viewerSidebar = function(){
-  let dom = ``;
+  let dom = `<div class='container-fluid'>
+  <div class='row'>
+    <nav class='col-md-2 d-none d-md-block bg-light sidebar'>
+      <div class='sidebar-sticky'>
+        <ul class='nav flex-column'>
+          <li class='nav-item'>
+            <a id='dashboard' class='nav-link active' href='#'><i class='fa fa-home'></i>&nbsp;Dashboard <span class='sr-only'>(current)</span></a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_restoran' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;Restoran</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_hotel' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;Hotel</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_parkir' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;Parkir</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_reklame' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;Reklame</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_airtanah' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;Air Tanah</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_hiburan' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;Hiburan</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_bphtb' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;BPHTB</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_ppju' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;PPJU</a>
+          </li>
+          <li class='nav-item'>
+            <a id='viewer_pbbp2' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;PBB-P2</a>
+          </li>
+        </ul>
+
+        <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
+          <span><i class='fa fa-eye'></i>&nbsp;Visualisasi Data</span>
+        </h6>
+        <ul class='nav flex-column mb-2'>
+          <li class='nav-item'>
+            <a id='grafik_pad' class='nav-link' href='#'><span><i class='fa fa-line-chart'></i></span>&nbsp;Realisasi PAD</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main role='main' class='col-md-9 ml-sm-auto col-lg-10 px-4'>
+      <div id='app_header' class='mt-2 border-bottom'></div>
+      <div id='app_body'></div>
+    </main>
+  </div>
+</div>`;
   return dom;
 };
 
@@ -166,92 +219,625 @@ templates.breadcrumb = function(title, icon){
 }
 
 templates._formModuleRestoran = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='02'>
+  <table class='table table-bordered table-striped'>
+      <tfoot>
+        <tr>
+          <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Wajib Pajak</td>
+          <td class='valigned-middle'><select id='text_f' name='text_f' class='form-control'>
+            <option value=''>PILIH WAJIB PAJAK</option>
+            <option value='02'>RUMAH MAKAN</option>
+            <option value='04'>KANTIN</option>
+            <option value='05'>KATERING</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Objek Pajak</td>
+          <td class='valigned-middle'><select id='op' name='op' class='form-control'>
+            <option value=''>PILIH OBJEK PAJAK</option>
+            <option value='NIKI PARAKAN'>NIKI PARAKAN</option>
+            <option value='SAMBAL TOBAT MANDING'>SAMBAL TOBAT MANDING</option>
+            <option value='POPEYE TEMANGGUNG'>POPEYE TEMANGGUNG</option>
+            <option value='ROCKET CHICKEN TEMANGGUNG'>ROCKET CHICKEN TEMANGGUNG</option>
+            <option value='LAMONGAN GI'>LAMONGAN GI</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModuleHotel = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='01'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Wajib Pajak</td>
+          <td class='valigned-middle'><select id='text_f' name='text_f' class='form-control'>
+            <option value=''>PILIH WAJIB PAJAK</option>
+            <option value='04'>BINTANG 1</option>
+            <option value='07'>MELATI 3</option>
+            <option value='08'>MELATI 2</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Objek Pajak</td>
+          <td class='valigned-middle'><select id='op' name='op' class='form-control'>
+            <option value=''>PILIH OBJEK PAJAK</option>
+            <option value='HOTEL INDRALOKA'>HOTEL INDRALOKA</option>
+            <option value='HOTEL DIRGANTARA'>HOTEL DIRGANTARA</option>
+            <option value='HOTEL KINTAMANI'>HOTEL KINTAMANI</option>
+            <option value='HOTEL AYU'>HOTEL AYU</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModuleParkir = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='09'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Wajib Pajak</td>
+          <td class='valigned-middle'><select id='text_f' name='text_f' class='form-control'>
+            <option value=''>PILIH WAJIB PAJAK</option>
+            <option value='01'>PARKIR</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Objek Pajak</td>
+          <td class='valigned-middle'><select id='op' name='op' class='form-control'>
+            <option value=''>PILIH OBJEK PAJAK</option>
+            <option value='MAHKOTA KRANGGAN'>MAHKOTA KRANGGAN</option>
+            <option value='NIKI NGADIREJO'>NIKI NGADIREJO</option>
+            <option value='INDOMARET'>INDOMARET</option>
+            <option value='ALFAMART'>ALFAMART</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModuleReklame = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='04'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Wajib Pajak</td>
+          <td class='valigned-middle'><select id='text_f' name='text_f' class='form-control'>
+            <option value=''>PILIH WAJIB PAJAK</option>
+            <option value='01'>PAPAN NAMA</option>
+            <option value='02'>KAIN</option>
+            <option value='04'>SELEBARAN</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Objek Pajak</td>
+          <td class='valigned-middle'><select id='op' name='op' class='form-control'>
+            <option value=''>PILIH OBJEK PAJAK</option>
+            <option value='PT. DJARUM'>PT. DJARUM</option>
+            <option value='PT. GUDANG GARAM'>PT. GUDANG GARAM</option>
+            <option value='CV. KARYA SATRYA'>CV. KARYA SATRYA</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModuleAirTanah = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='08'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Wajib Pajak</td>
+          <td class='valigned-middle'><select id='text_f' name='text_f' class='form-control'>
+            <option value=''>PILIH WAJIB PAJAK</option>
+            <option value='01'>AIR TANAH</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Objek Pajak</td>
+          <td class='valigned-middle'><select id='op' name='op' class='form-control'>
+            <option value=''>PILIH OBJEK PAJAK</option>
+            <option value='CUCIAN MOBIL KAMISO'>CUCIAN MOBIL KAMISO</option>
+            <option value='SAFARI DHARMA RAYA'>SAFARI DHARMA RAYA</option>
+            <option value='HARYANTO - GUDANG'>HARYANTO - GUDANG</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModuleHiburan = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='03'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Wajib Pajak</td>
+          <td class='valigned-middle'><select id='text_f' name='text_f' class='form-control'>
+            <option value=''>PILIH WAJIB PAJAK</option>
+            <option value='10'>PERMAINAN</option>
+            <option value='02'>PAGELARAN</option>
+            <option value='16'>PANTI PIJAT</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Objek Pajak</td>
+          <td class='valigned-middle'><select id='op' name='op' class='form-control'>
+            <option value=''>PILIH OBJEK PAJAK</option>
+            <option value='FUTSAL FANTASI'>FUTSAL FANTASI</option>
+            <option value='BASKET GOR'>BASKET GOR</option>
+            <option value='PABSI GAME CENTER'>PABSI GAME CENTER</option>
+            <option value='NSC BIOSKOP'>NSC BIOSKOP</option>
+          </select></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModuleBPHTB = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='07'>
+  <input type='hidden' id='text_f' name='text_f' value='01'>
+  <input type='hidden' id='op' name='op' value='KOLEKTIF'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModulePPJU = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+  <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+  <input type='hidden' id='text_b' name='text_b' value='4'>
+  <input type='hidden' id='text_c' name='text_c' value='1'>
+  <input type='hidden' id='text_d' name='text_d' value='1'>
+  <input type='hidden' id='text_e' name='text_e' value='05'>
+  <input type='hidden' id='text_f' name='text_f' value='01'>
+  <input type='hidden' id='op' name='op' value='KOLEKTIF'>
+  <table class='table table-bordered table-striped'>
+  <tfoot>
+  <tr>
+    <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+  </tr>
+</tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._formModulePBBP2 = function(){
-  let dom = ``;
+  let dom = `<form id='finputData' name='finputData'>
+    <input type='hidden' id='context' name='context' value='TRANSAKSI'>
+    <input type='hidden' id='text_b' name='text_b' value='4'>
+    <input type='hidden' id='text_c' name='text_c' value='1'>
+    <input type='hidden' id='text_d' name='text_d' value='1'>
+    <input type='hidden' id='text_e' name='text_e' value='10'>
+    <input type='hidden' id='text_f' name='text_f' value='01'>
+    <input type='hidden' id='op' name='op' value='KOLEKTIF'>
+    <table class='table table-bordered table-striped'>
+      <tfoot>
+        <tr>
+          <td colspan='2' class='valigned-middle text-right'><button type='submit' id='savedata' class='btn btn-primary btn-sm'>Simpan Data</button></td>
+        </tr>
+      </tfoot>
+      <tbody>
+        <tr>
+          <td class='valigned-middle'>Tanggal</td>
+          <td class='valigned-middle'><input type='date' id='tanggal' name='tanggal' class='form-control datepicker'></td>
+        </tr>
+        <tr>
+          <td class='valigned-middle'>Jumlah</td>
+          <td class='valigned-middle'><input type='number' id='jumlah' name='jumlah' class='form-control text-right'></td>
+        </tr>
+      </tbody>
+    </table></form>
+    <hr/>
+    <table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleRestoran = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleHotel = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleParkir = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleReklame = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleAirTanah = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleHiburan = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Nama Wajib Pajak</th>
+          <th class='valigned-middle text-center'>Objek Pajak</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModuleBPHTB = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModulePPJU = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 
 templates._viewModulePBBP2 = function(){
-  let dom = ``;
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center fit-content'>No.</th>
+          <th class='valigned-middle text-center'>Tanggal</th>
+          <th class='valigned-middle text-center'>Jumlah</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
+  return dom;
+};
+
+templates._viewLRATable = function(){
+  let dom = `<table id='tabledata' class='table table-bordered table-striped'>
+      <thead>
+        <tr>
+          <th class='valigned-middle text-center'>Kode Rekening</th>
+          <th class='valigned-middle text-center'>Rekening</th>
+          <th class='valigned-middle text-center'>Target</th>
+          <th class='valigned-middle text-center'>Realisasi</th>
+          <th class='valigned-middle text-center'>Pct.</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>`;
   return dom;
 };
 

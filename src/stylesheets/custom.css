@@ -74,6 +74,17 @@ body {
     border-radius: 0;
 }
 
+.table td.fit-content, 
+.table th.fit-content {
+    white-space: nowrap;
+    width: 1%;
+}
+
+.table td.valigned-middle, 
+.table th.valigned-middle {
+  vertical-align: middle;
+}
+
 /* Section II - Leaflet.js -related */
 .leaflet-control-layers {
   overflow: auto;
