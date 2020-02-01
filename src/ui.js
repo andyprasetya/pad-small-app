@@ -1,7 +1,7 @@
 import config from './config';
 import templates from './ui-template';
 import helpers from './helpers';
-import { COMMON_AXIS_PROPERTIES_INDEX } from 'vega-lite/build/src/axis';
+// import { COMMON_AXIS_PROPERTIES_INDEX } from 'vega-lite/build/src/axis';
 import numeral from 'numeral';
 
 var ui = {};
@@ -65,24 +65,32 @@ ui.createLandingPage = function() {
 };
 
 ui._createDashboard = function() {
-  let anchorSelector = document.getElementById('app');
   let activeModule = sessionStorage.getItem('module');
   if(activeModule){
     document.getElementById('app_header').innerHTML = templates.breadcrumb('Dashboard', 'fa fa-home');
     ui.createLRATable();
   } else {
-    anchorSelector.innerHTML = "";
+    document.getElementById('app').innerHTML = "";
     console.log('Landing page - public');
   }
 };
 
 ui._createAppModule = function(appsubmodule) {
   appsubmodule = typeof appsubmodule !== 'undefined' ? appsubmodule : 'dashboard';
-  let activeModule = sessionStorage.getItem('module');
   document.getElementById('app_header').innerHTML = "";
   document.getElementById('app_body').innerHTML = "";
   if(appsubmodule == 'dashboard'){
     this.createLandingPage();
+  } else if(appsubmodule == 'taxyear'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Tahun Anggaran', 'fa fa-calendar');
+  } else if(appsubmodule == 'target_management'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Perencanaan', 'fa fa-shopping-basket');
+  } else if(appsubmodule == 'wp_management'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Daftar Wajib Pajak', 'fa fa-book');
+  } else if(appsubmodule == 'change_password'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Password', 'fa fa-lock');
+  } else if(appsubmodule == 'users_management'){
+    document.getElementById('app_header').innerHTML = templates.breadcrumb('Manajemen Pengguna', 'fa fa-user');
   } else if(appsubmodule == 'data_restoran'){
     document.getElementById('app_header').innerHTML = templates.breadcrumb('Restoran', 'fa fa-file');
     document.getElementById('app_body').innerHTML = templates._formModuleRestoran();

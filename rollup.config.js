@@ -8,15 +8,15 @@ import autoprefixer from 'autoprefixer';
 const production = !process.env.ROLLUP_WATCH;
 
 export default {
-	input: 'src/main.js',
-	output: {
-		file: 'public/bundle.js',
-		format: 'iife',
-		sourcemap: true
-	},
-	plugins: [
-		resolve(),
-		commonjs(),
+  input: 'src/main.js',
+  output: {
+    file: 'public/bundle.js',
+    format: 'iife',
+    sourcemap: true
+  },
+  plugins: [
+    resolve(),
+    commonjs(),
     postcss({
       preprocessor: (content, id) => new Promise((resolve, reject) => {
         const result = sass.renderSync({ file: id });
@@ -29,6 +29,6 @@ export default {
       extract: true,
       extensions: ['.sass','.scss','.css']
     }),
-		production && terser()
-	]
+    production && terser()
+  ]
 };

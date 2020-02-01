@@ -62,13 +62,37 @@ templates.adminSidebar = function(){
                 <a id='data_pbbp2' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;PBB-P2</a>
               </li>
             </ul>
-
+            <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
+              <span><i class='fa fa-book'></i>&nbsp;Data Dasar</span>
+            </h6>
+            <ul class='nav flex-column mb-2'>
+              <li class='nav-item'>
+                <a id='taxyear' class='nav-link' href='#'><span><i class='fa fa-calendar'></i></span>&nbsp;Tahun Anggaran</a>
+              </li>
+              <li class='nav-item'>
+                <a id='target_management' class='nav-link' href='#'><span><i class='fa fa-shopping-basket'></i></span>&nbsp;Perencanaan</a>
+              </li>
+              <li class='nav-item'>
+                <a id='wp_management' class='nav-link' href='#'><span><i class='fa fa-book'></i></span>&nbsp;Daftar Wajib Pajak</a>
+              </li>
+            </ul>
             <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
               <span><i class='fa fa-eye'></i>&nbsp;Visualisasi Data</span>
             </h6>
             <ul class='nav flex-column mb-2'>
               <li class='nav-item'>
                 <a id='grafik_pad' class='nav-link' href='#'><span><i class='fa fa-line-chart'></i></span>&nbsp;Realisasi PAD</a>
+              </li>
+            </ul>
+            <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
+              <span><i class='fa fa-cog'></i>&nbsp;Pengaturan</span>
+            </h6>
+            <ul class='nav flex-column mb-2'>
+              <li class='nav-item'>
+                <a id='change_password' class='nav-link' href='#'><span><i class='fa fa-lock'></i></span>&nbsp;Password</a>
+              </li>
+              <li class='nav-item'>
+                <a id='users_management' class='nav-link' href='#'><span><i class='fa fa-user'></i></span>&nbsp;Manajemen Pengguna</a>
               </li>
             </ul>
           </div>
@@ -120,13 +144,20 @@ templates.viewerSidebar = function(){
             <a id='viewer_pbbp2' class='nav-link' href='#'><span><i class='fa fa-file'></i></span>&nbsp;PBB-P2</a>
           </li>
         </ul>
-
         <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
           <span><i class='fa fa-eye'></i>&nbsp;Visualisasi Data</span>
         </h6>
         <ul class='nav flex-column mb-2'>
           <li class='nav-item'>
             <a id='grafik_pad' class='nav-link' href='#'><span><i class='fa fa-line-chart'></i></span>&nbsp;Realisasi PAD</a>
+          </li>
+        </ul>
+        <h6 class='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
+          <span><i class='fa fa-cog'></i>&nbsp;Pengaturan</span>
+        </h6>
+        <ul class='nav flex-column mb-2'>
+          <li class='nav-item'>
+            <a id='change_password' class='nav-link' href='#'><span><i class='fa fa-lock'></i></span>&nbsp;Password</a>
           </li>
         </ul>
       </div>
@@ -838,6 +869,11 @@ templates._viewLRATable = function(){
       </thead>
       <tbody></tbody>
     </table>`;
+  return dom;
+};
+
+templates._viewGraphicPAD = function(){
+  let dom = ``;
   return dom;
 };
 
